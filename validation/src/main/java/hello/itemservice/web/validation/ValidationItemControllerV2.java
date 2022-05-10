@@ -2,9 +2,7 @@ package hello.itemservice.web.validation;
 
 import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -49,14 +47,16 @@ public class ValidationItemControllerV2 {
     }
 
     //    @PostMapping("/add")
-    public String addItemV1(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public String addItemV1(@ModelAttribute Item item, BindingResult bindingResult,
+        RedirectAttributes redirectAttributes) {
 
         // 검증 로직(특정 필드)
         if (!StringUtils.hasText(item.getItemName())) {
             bindingResult.addError(new FieldError("item", "itemName", "상품 이름은 필수입니다."));
         }
         if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
-            bindingResult.addError(new FieldError("item", "price", "가격은 1,000 ~ 1,000,000까지 허용합니다."));
+            bindingResult.addError(
+                new FieldError("item", "price", "가격은 1,000 ~ 1,000,000까지 허용합니다."));
         }
         if (item.getQuantity() == null || item.getQuantity() >= 9999) {
             bindingResult.addError(new FieldError("item", "quantity", "수량은 최대 9,999까지 허용합니다."));
@@ -86,7 +86,7 @@ public class ValidationItemControllerV2 {
 
     //    @PostMapping("/add")
     public String addItemV2(@ModelAttribute Item item, BindingResult bindingResult,
-        RedirectAttributes redirectAttributes, Model model) {
+        RedirectAttributes redirectAttributes) {
 
         // 검증 로직(특정 필드)
         if (!StringUtils.hasText(item.getItemName())) {
@@ -130,7 +130,7 @@ public class ValidationItemControllerV2 {
 
     @PostMapping("/add")
     public String addItemV3(@ModelAttribute Item item, BindingResult bindingResult,
-        RedirectAttributes redirectAttributes, Model model) {
+        RedirectAttributes redirectAttributes) {
 
         // 검증 로직(특정 필드)
         if (!StringUtils.hasText(item.getItemName())) {

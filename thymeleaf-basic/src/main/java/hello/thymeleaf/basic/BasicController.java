@@ -1,5 +1,8 @@
 package hello.thymeleaf.basic;
 
+import java.util.List;
+import java.util.Map;
+import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,5 +22,33 @@ public class BasicController {
     public String textUnescaped(Model model) {
         model.addAttribute("data", "Hello <b>Spring!</b>");
         return "basic/text-unescaped";
+    }
+
+    @GetMapping("/variable")
+    public String variable(Model model) {
+        User userA = new User("userA", 10);
+        User userB = new User("userB", 20);
+
+        List<User> list = List.of(userA, userB);
+
+        Map<String, User> map = Map.of("userA", userA, "userB", userB);
+
+        model.addAttribute("user", userA);
+        model.addAttribute("users", list);
+        model.addAttribute("userMap", map);
+
+        return "basic/variable";
+    }
+
+    @Data
+    static class User {
+
+        private String name;
+        private int age;
+
+        public User(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
     }
 }

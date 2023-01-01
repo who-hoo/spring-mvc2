@@ -2,7 +2,9 @@ package hello.thymeleaf.basic;
 
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,12 @@ public class BasicController {
         return "basic/variable";
     }
 
+    @GetMapping("/basic-objects")
+    public String basicObjects(HttpSession session) {
+        session.setAttribute("sessionData", "Hello Session");
+        return "basic/basic-objects";
+    }
+
     @Data
     static class User {
 
@@ -49,6 +57,14 @@ public class BasicController {
         public User(String name, int age) {
             this.name = name;
             this.age = age;
+        }
+    }
+
+    @Component("helloBean")
+    static class HelloBean {
+
+        public String hello(String data) {
+            return "Hello " + data;
         }
     }
 }
